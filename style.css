@@ -1,0 +1,249 @@
+/* Light Theme for vbzio */
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+    background-color: #ffffff;
+    color: #333;
+}
+
+/* Header and Navigation */
+header {
+    background-color: #333;
+    color: #fff;
+    padding: 1.5rem 1rem;
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+header h1 {
+    margin: 0 0 1rem 0;
+    font-size: 1.8rem;
+    font-weight: 600;
+}
+
+nav ul {
+    padding: 0;
+    list-style: none;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+}
+
+nav ul li {
+    display: inline;
+}
+
+nav a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: 500;
+    transition: opacity 0.2s ease;
+}
+
+nav a:hover {
+    opacity: 0.8;
+}
+
+nav a:focus {
+    outline: 2px solid #ffeb3b;
+    outline-offset: 4px;
+}
+
+/* Main Content */
+main {
+    padding: 0;
+    max-width: 100%;
+    margin: auto;
+}
+
+/* Sections */
+section {
+    padding: 3rem 1rem;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+section:nth-child(odd) {
+    background-color: #f9f9f9;
+}
+
+section:nth-child(even) {
+    background-color: #ffffff;
+}
+
+section h2 {
+    font-size: 1.8rem;
+    margin-top: 0;
+    margin-bottom: 1.5rem;
+    color: #222;
+    font-weight: 600;
+}
+
+section h3 {
+    font-size: 1.2rem;
+    margin-top: 1.5rem;
+    margin-bottom: 0.75rem;
+    color: #333;
+    font-weight: 600;
+}
+
+section p {
+    margin-bottom: 1rem;
+    font-size: 1rem;
+}
+
+section ul {
+    margin: 1rem 0;
+    padding-left: 1.5rem;
+}
+
+section li {
+    margin-bottom: 0.75rem;
+    font-size: 1rem;
+}
+
+/* Links and CTA */
+a {
+    color: #0056b3;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+a:hover {
+    color: #003d82;
+    text-decoration: underline;
+}
+
+a:focus {
+    outline: 2px solid #ffeb3b;
+    outline-offset: 2px;
+}
+
+/* CTA Button Style */
+.cta-link {
+    display: inline-block;
+    background-color: #0056b3;
+    color: #fff;
+    padding: 0.75rem 1.5rem;
+    border-radius: 4px;
+    font-weight: 600;
+    margin-top: 1rem;
+    transition: background-color 0.2s ease;
+}
+
+.cta-link:hover {
+    background-color: #003d82;
+    text-decoration: none;
+}
+
+.cta-link:focus {
+    outline: 2px solid #ffeb3b;
+    outline-offset: 4px;
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    padding: 2rem 1rem;
+    background-color: #333;
+    color: #fff;
+    margin-top: 2rem;
+}
+
+footer p {
+    margin: 0.5rem 0;
+    font-size: 0.9rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    header h1 {
+        font-size: 1.5rem;
+    }
+
+    nav ul {
+        gap: 1rem;
+    }
+
+    section {
+        padding: 2rem 1rem;
+    }
+
+    section h2 {
+        font-size: 1.5rem;
+    }
+
+    section h3 {
+        font-size: 1.1rem;
+    }
+}
+
+@media (max-width: 600px) {
+    header {
+        padding: 1rem;
+    }
+
+    header h1 {
+        font-size: 1.3rem;
+        margin-bottom: 0.75rem;
+    }
+
+    nav ul {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    nav ul li {
+        display: block;
+    }
+
+    section {
+        padding: 1.5rem 1rem;
+    }
+
+    section h2 {
+        font-size: 1.3rem;
+        margin-bottom: 1rem;
+    }
+
+    section h3 {
+        font-size: 1rem;
+    }
+
+    .cta-link {
+        display: block;
+        text-align: center;
+        padding: 1rem;
+    }
+}
+
+@media (max-width: 320px) {
+    body {
+        font-size: 0.9rem;
+    }
+
+    header h1 {
+        font-size: 1.1rem;
+    }
+
+    section {
+        padding: 1rem 0.75rem;
+    }
+
+    section h2 {
+        font-size: 1.15rem;
+    }
+}
