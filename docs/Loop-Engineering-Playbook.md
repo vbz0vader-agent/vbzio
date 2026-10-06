@@ -1,7 +1,7 @@
 # Loop Engineering Playbook
 
 **Status:** Approved blueprint (Approach A) — v1 power = soft window only  
-**Last updated:** 2026-10-06 (AEDT) — Cursor plugins + CLI login auth + Spec Kit (see §12 Changelog)  
+**Last updated:** 2026-10-06 (AEDT) — Cursor plugins + CLI login auth + Spec Kit + hg61→hg62 deploy (see §12 Changelog)  
 **Canonical human copy:** Obsidian `localdev` → Development Structure → Loop  
 **Agent copy:** hg61 `~/loop/docs/Loop-Engineering-Playbook.md` (keep in sync)  
 **Homelab inventory:** Notion → Technology → Home Servers (not this doc)
@@ -186,6 +186,21 @@ Example cron (night window, soft — does **not** force power off):
 - **Issues:** the Tech Lead uses `gh` (vbz0vader-agent) to make GitHub Issues from `tasks.md`. Do not use `/speckit-taskstoissues`: it needs a GitHub MCP server, and Loop runs on hg61 have none.
 - **Artifacts:** new projects use `specs/NNN-name/{spec,plan,tasks}.md` in place of `docs/tasks/N-spec.md` and `N-plan.md`; the constitution is `.specify/memory/constitution.md`.
 
+### Build on hg61, deploy to hg62 (since 2026-10-06)
+
+Use this split for projects that run on hg62 (first project: `shs-miner`).
+
+| Step | Host | Rule |
+|---|---|---|
+| Code | hg61 | Cursor CLI writes the code on hg61 only. |
+| Test | hg61 | Tests run on hg61. Integration tests use a disposable PostgreSQL 16 in Docker (testcontainers or docker compose). |
+| Publish | GitHub | Push to `main` as vbz0vader-agent. |
+| Run | hg62 | hg62 is the only runtime host: PostgreSQL, SearXNG, OmniRoute, the project services and their systemd timers. |
+| Deploy | hg61 → hg62 | `scripts/deploy-hg62.sh` runs from hg61 over SSH (Tailscale or LAN): `git pull` in the deploy directory (e.g. `/home/eddie/shs/`) → `uv sync` → database migrations → install or update the systemd units → restart them → smoke check. The script stops at the first failed step. |
+
+- Do not install the runtime infrastructure on both hosts. hg61 only runs disposable Docker test containers.
+- Secrets stay in mode-600 env files on hg62. The deploy script does not copy or print them.
+
 ---
 
 ## 8. Token & $ economy
@@ -247,6 +262,7 @@ All coding / `gh` / loop PRs / Drive used by agents: **vbz0vader@gmail.com** onl
 
 ## 12. Changelog
 
+- **2026-10-06 — Build on hg61, deploy to hg62:** Added §7 subsection. Cursor CLI writes code and runs tests on hg61 (disposable PostgreSQL 16 in Docker), pushes to `main`; hg62 is the only runtime host; `scripts/deploy-hg62.sh` deploys over SSH (git pull, `uv sync`, migrations, systemd units, restart, smoke check). First project: `shs-miner`.
 - **2026-10-06 — Spec Kit:** Added GitHub Spec Kit `specify` v1.1.0 (integration `cursor-agent`, hyphenated `/speckit-*` skills) for new projects (see §7 Spec Kit). New projects use `specs/NNN-name/{spec,plan,tasks}.md` in place of `docs/tasks/N-spec.md` / `N-plan.md`; the Tech Lead makes Issues from `tasks.md` with `gh` (no `/speckit-taskstoissues`, which needs a GitHub MCP server). vbzio is not initialised with Spec Kit.
 - **2026-10-06 — Cursor plugins:** Added pinned `cursor/plugins` checkout (`df58112`) at `~/loop/plugins/cursor-plugins`; `cursor-team-kit` (trimmed), `thermos`, `agent-compatibility` load via `--plugin-dir` (see §7 Cursor plugins). New `~/loop/bin/loop-agent` + `loop-common.sh`; `loop-techlead` now uses CLI login auth (no API key file) and the plugin set. Account plugins' personal MCP servers (Gmail, Calendar, Drive, Notion, X) disabled for hg61 runs via `agent mcp disable`. Default model confirmed `composer-2.5` (`agent about`).
 - **2026-10-06 — stack simplification:** Coding stack reduced to GrokBot + Cursor CLI. Pi (former Coder), OpenHands and OpenAI Codex CLI removed from hg61. Cursor CLI (`~/.local/bin/agent`) now does **both** Tech Lead and Coder. OpenRouter / SiliconFlow no longer used for coding. Default model `composer-2.5` (cheapest Cursor Models pool model; see §8). All usage on Cursor Pro (edc898); GitHub stays vbz0vader-agent. `~/.cursor/cli-config.json` default model set (backup `cli-config.json.bak`); `~/loop/bin/loop-techlead` passes `--model` and sources the API key; `~/loop/bin/README.md` updated.
